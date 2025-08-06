@@ -6,3 +6,30 @@
   <title>Leah Balakrishnan</title>
   <meta name="theme-color" content="#0F1115" />
   <style>
+    /* =====================
+       Leah: theme + reset (my baseline)
+       ===================== */
+    :root{
+      --bg:#0F1115;        /* my deep near-black background */
+      --panel:#16181D;     /* slightly lighter panels for depth */
+      --ink:#ECEFF4;       /* primary text I want super readable */
+      --muted:#C7D0E0;     /* secondary text tone */
+      --accent:#8C1515;    /* Stanford Cardinal — obviously */
+      --line:#23262F;      /* subtle borders so things feel intentional */
+      --radius:16px;
+      --shadow:0 14px 34px rgba(0,0,0,.45);
+
+      --header-h:64px;     /* fixed header height I’m accounting for */
+      --progress-h:3px;    /* tiny progress bar height */
+    }
+    
+    /* Light mode I can toggle on */
+    [data-theme="light"]{
+      --bg:#F7F8FA;
+      --panel:#FFFFFF;
+      --ink:#0E1016;
+      --muted:#4A5568;
+      --accent:#8C1515;
+      --line:#E7EAF0;
+      --shadow:0 10px 24px rgba(0,0,0,.08);
+    }
