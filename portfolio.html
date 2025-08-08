@@ -61,3 +61,33 @@
       background: linear-gradient(90deg, var(--accent) var(--p,0%), transparent 0);
       transition: background .08s linear;
     }
+
+    /* =====================
+       header / nav (sticky, slightly frosted)
+       ===================== */
+    header{
+      position:fixed; top:0; left:0; right:0; z-index:80;
+      backdrop-filter:saturate(140%) blur(8px);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom:1px solid var(--line);
+    }
+
+    .nav{height:var(--header-h); display:flex; align-items:center; gap:18px}
+    .brand{font-weight:800; letter-spacing:.2px}
+    .navlinks{display:flex; gap:16px; margin-left:8px}
+    .navlinks a{color:var(--muted); font-weight:600; position:relative}
+    .navlinks a[aria-current="page"]{color:var(--ink)}
+    .navlinks a::after{content:""; position:absolute; left:0; right:0; bottom:-8px; height:2px; background:transparent; border-radius:2px; transform:scaleX(0); transform-origin:left; transition:.2s ease}
+    .navlinks a[aria-current="page"]::after{background:var(--accent); transform:scaleX(1)}
+    .spacer{flex:1}
+
+    .actions{display:flex; gap:10px; align-items:center}
+    .icon{
+      display:inline-flex; justify-content:center; align-items:center;
+      width:36px; aspect-ratio:1 / 1;
+      border-radius:9999px;
+      background:var(--panel); border:1px solid var(--line);
+    }
+    .icon svg{ width:20px; height:20px; display:block; }
+
+    .toggle{display:grid; place-items:center; width:40px; height:36px; border-radius:10px; background:var(--panel); border:1px solid var(--line); cursor:pointer}
