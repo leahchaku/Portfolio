@@ -49,3 +49,15 @@
 
     a{color:inherit;text-decoration:none}
     .wrap{max-width:1080px; margin:0 auto; padding:0 22px}
+
+    /* make anchored sections land below my fixed header */
+    section{ scroll-margin-top: calc(var(--header-h) + 16px); }
+
+    /* =====================
+       progress bar up top — I like little feedback
+       ===================== */
+    .progress{
+      position:fixed; inset:0 0 auto 0; height:var(--progress-h); z-index:100;
+      background: linear-gradient(90deg, var(--accent) var(--p,0%), transparent 0);
+      transition: background .08s linear;
+    }
