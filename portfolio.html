@@ -91,3 +91,28 @@
     .icon svg{ width:20px; height:20px; display:block; }
 
     .toggle{display:grid; place-items:center; width:40px; height:36px; border-radius:10px; background:var(--panel); border:1px solid var(--line); cursor:pointer}
+
+    /* =====================
+       layout scaffolding
+       ===================== */
+    main section{padding:92px 0}
+    .hero{display:grid; grid-template-columns: 1.05fr .95fr; gap:28px; align-items:center}
+    @media (max-width:900px){ .hero{ grid-template-columns:1fr } }
+
+    /* plant badge centered — small delight for me */
+    .plant-wrap{display:flex; justify-content:center; margin-bottom:24px}
+    .plant{ width:108px; height:108px; border-radius:20px; background:var(--panel); border:1px solid var(--line); display:grid; place-items:center; box-shadow:var(--shadow) }
+    .plant svg{width:84px; height:auto; display:block}
+
+    /* plant animation: gentle, not flashy */
+    @keyframes growStem { from{transform:scaleY(0)} to{transform:scaleY(1)} }
+    @keyframes sway     { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(-2.4deg)} }
+    @keyframes leafPop  { 0%{transform:translateY(6px) scale(.6); opacity:0} 100%{transform:translateY(0) scale(1); opacity:1} }
+    @keyframes flower   { 0%{transform:scale(.2); opacity:0} 70%{opacity:1} 100%{transform:scale(1); opacity:1} }
+    .stem-wrap{transform-origin:42px 66px; animation: sway 4.5s ease-in-out 1.2s infinite}
+    .stem{transform-origin:42px 66px; transform:scaleY(0); animation: growStem 1.3s cubic-bezier(.17,.9,.21,1.02) .2s forwards}
+    .leaf{opacity:0; transform-origin: center bottom; animation: leafPop .45s ease-out 1.05s forwards}
+    .leaf.l2{animation-delay:1.2s}
+    .leaf.r1{animation-delay:1.35s}
+    .leaf.r2{animation-delay:1.5s}
+    .flower{opacity:0; transform-origin:center; animation: flower .55s cubic-bezier(.2,.8,.2,1) 1.65s forwards}
