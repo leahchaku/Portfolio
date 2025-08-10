@@ -135,3 +135,14 @@
     .photo{border:1px solid var(--line); background:var(--panel); border-radius:20px; overflow:hidden; box-shadow:var(--shadow)}
     .photo img{display:block; width:100%; height:auto; object-fit:cover}
 
+    /* panels + grid */
+    h2{margin:0 0 12px; font-size:20px;}
+    .panel{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:16px}
+    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap:16px}
+    .col-4{grid-column:span 4}
+    .col-6{grid-column:span 6}
+    .col-8{grid-column:span 8}
+    .col-12{grid-column:span 12}
+    @media (max-width:900px){ .col-4,.col-6,.col-8{grid-column:span 12} }
+
+
