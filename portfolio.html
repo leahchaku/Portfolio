@@ -145,4 +145,43 @@
     .col-12{grid-column:span 12}
     @media (max-width:900px){ .col-4,.col-6,.col-8{grid-column:span 12} }
 
+    /* compact skill chips (cute + scannable) */
+    .chips{display:flex; flex-wrap:wrap; gap:8px}
+    .chip{border:1px solid var(--line); background:color-mix(in oklab, var(--panel) 90%, var(--ink)); color:var(--ink); opacity:.9; padding:6px 10px; border-radius:999px; font-weight:600; font-size:13px}
+
+    /* card hover: subtle lift */
+    .card{ position:relative; transition: transform .15s ease, box-shadow .15s ease; will-change: transform; }
+    .card:hover{ transform: translateY(-2px); box-shadow:0 14px 30px rgba(0,0,0,.25) }
+
+    /* reveal on scroll */
+    .reveal{opacity:0; transform:translateY(14px); transition: .5s ease}
+    .reveal.show{opacity:1; transform:translateY(0)}
+
+    /* experience timeline with a vertical line + dots */
+    .timeline{ position:relative; padding-left:18px; }
+    .timeline::before{ content:""; position:absolute; left:4px; top:2px; bottom:2px; width:2px; background:var(--line) }
+    .tick{ position:relative; margin:16px 0; padding-left:16px }
+    .tick::before{ content:""; position:absolute; left:-2px; top:8px; width:8px; height:8px; background:var(--accent); border-radius:50% }
+    .when{ font-weight:800; color:var(--muted); font-size:13px }
+    .where{ font-weight:800 }
+    .what{ color:var(--muted) }
+
+    footer{padding:46px 0 88px; color:var(--muted); text-align:center; border-top:1px solid var(--line)}
+    .small{font-size:14px}
+
+    /* back-to-top button (for future me when I scroll too far) */
+    .top{ position:fixed; right:18px; bottom:18px; width:42px; height:42px; display:grid; place-items:center; border-radius:12px; border:1px solid var(--line); background:var(--panel); box-shadow:var(--shadow); cursor:pointer; opacity:0; transform:translateY(12px); transition:.25s ease; z-index:30 }
+    .top.show{opacity:1; transform:translateY(0)}
+
+    /* tiny toast confirming clipboard actions */
+    .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(16px); background:var(--panel); border:1px solid var(--line); color:var(--ink); padding:10px 14px; border-radius:10px; box-shadow:var(--shadow); opacity:0; transition:.3s ease; z-index:60 }
+    .toast.show{ opacity:1; transform:translateX(-50%) translateY(0) }
+
+    /* reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation: none !important; transition: none !important}
+    }
+  </style>
+</head>
+<body>
 
