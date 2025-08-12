@@ -366,3 +366,162 @@
 
   <!-- tiny toast for clipboard actions -->
   <div class="toast" id="toast" role="status" aria-live="polite">Copied to clipboard ✨</div>
+
+  <script>
+    // Leah: tiny boot script — interactive but still simple
+    (function leahsLittleInit() {
+      'use strict';
+
+      // 0) remember my theme choice
+      const root = document.documentElement;
+      const stored = localStorage.getItem('leah-theme');
+      if (stored) root.setAttribute('data-theme', stored);
+
+      // 1) stamp the current year in the footer
+      const yearSlot = document.getElementById('y');
+      if (yearSlot) yearSlot.textContent = new Date().getFullYear();
+
+      // 2) typewriter headline — "hi, " + "leah"(red) + " here."
+      const typeTarget = document.getElementById('type');
+      const segments = [
+        { t: 'hi, ', cls: '' },
+        { t: 'leah', cls: 'accent' },
+        { t: ' here.', cls: '' },
+      ];
+      const full = segments.map(s => s.t).join('');
+      const SPEED_MS = 70;
+      let idx = 0;
+
+      function render(n){
+        let remain = n, html = '';
+        for (const s of segments){
+          const take = Math.max(0, Math.min(s.t.length, remain));
+          const chunk = s.t.slice(0, take);
+          if (take > 0){
+            html += s.cls ? `<span class="${s.cls}">${chunk}</span>` : chunk;
+          }
+          remain -= take;
+        }
+        typeTarget.innerHTML = html;
+      }
+
+      function typeTinyLetters(){
+        if (!typeTarget) return;
+        if (idx <= full.length){
+          render(idx++);
+          // tiny human-ish pause after comma and after "leah"
+          const ch = full[idx-1];
+          const delay = (ch === ',' ? 250 : (idx === segments[0].t.length + segments[1].t.length ? 180 : SPEED_MS));
+          setTimeout(typeTinyLetters, delay);
+        }
+      }
+
+      // 3) reveal sections as they enter the viewport
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if (e.isIntersecting) e.target.classList.add('show'); });
+      }, {threshold: .15});
+      document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+      // 4) active nav highlight (click + scroll)
+      const navLinks = Array.from(document.querySelectorAll('[data-link]'));
+
+      function setActive(id) {
+        navLinks.forEach(a =>
+          a.setAttribute('aria-current', a.hash === `#${id}` ? 'page' : 'false')
+        );
+      }
+
+      // update underline immediately on click
+      navLinks.forEach(a => {
+        a.addEventListener('click', () => setActive(a.hash.slice(1)));
+      });
+
+      // scroll spy for sections
+      const watchedSections = navLinks
+        .map(a => document.querySelector(a.hash))
+        .filter(Boolean);
+
+      const spy = new IntersectionObserver(
+        entries => {
+          entries.forEach(e => {
+            if (e.isIntersecting) setActive(e.target.id);
+          });
+        },
+        { rootMargin: '-20% 0px -50% 0px', threshold: 0.4 }
+      );
+
+      watchedSections.forEach(s => spy.observe(s));
+      // initial state for underline
+      setActive((location.hash || '#home').slice(1));
+
+      // 5) top progress bar based on scroll position
+      const progress = document.querySelector('.progress');
+      function setProgress(){
+        const h = document.documentElement;
+        const scrolled = (h.scrollTop)/(h.scrollHeight - h.clientHeight) * 100;
+        progress && (progress.style.setProperty('--p', scrolled.toFixed(2) + '%'));
+      }
+      addEventListener('scroll', setProgress, {passive:true});
+      setProgress();
+
+      // 6) back-to-top visibility toggle
+      const topBtn = document.getElementById('backToTop');
+      function toggleTopBtn(){
+        if (!topBtn) return;
+        (scrollY > 400) ? topBtn.classList.add('show') : topBtn.classList.remove('show');
+      }
+      addEventListener('scroll', toggleTopBtn, {passive:true});
+      toggleTopBtn();
+      topBtn && topBtn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+      // 7) theme toggle (persisted)
+      const toggle = document.getElementById('themeToggle');
+      function setTheme(mode){
+        root.setAttribute('data-theme', mode);
+        localStorage.setItem('leah-theme', mode);
+        toggle.setAttribute('aria-pressed', mode === 'light');
+        toggle.textContent = mode === 'light' ? '🌙' : '☀️';
+      }
+      toggle && toggle.addEventListener('click', ()=>{
+        const now = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        setTheme(now);
+      });
+      // default icon based on current mode
+      setTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+
+      // 8) long-press copies my email; normal click opens mail
+      const cta = document.getElementById('sayHi');
+      const toast = document.getElementById('toast');
+      let pressTimer;
+      function showToast(msg){
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(()=>toast.classList.remove('show'), 1500);
+      }
+      if (cta) {
+        cta.addEventListener('mousedown', ()=>{
+          pressTimer = setTimeout(()=>{
+            navigator.clipboard?.writeText('leahtb@stanford.edu');
+            showToast('Email copied ✨');
+          }, 500);
+        });
+        ['mouseup','mouseleave'].forEach(ev=>cta.addEventListener(ev, ()=> clearTimeout(pressTimer)));
+      }
+
+      // 9) add focus ring after first Tab (keyboard users)
+      function handleFirstTab(e){
+        if (e.key === 'Tab') {
+          document.body.classList.add('user-tabbing');
+          window.removeEventListener('keydown', handleFirstTab);
+        }
+      }
+      window.addEventListener('keydown', handleFirstTab);
+
+      // 10) kick things off
+      function doStuff(){ typeTinyLetters(); }
+      window.addEventListener('DOMContentLoaded', doStuff);
+    })();
+  </script>
+</body>
+</html>
