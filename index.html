@@ -149,6 +149,35 @@
     .chips{display:flex; flex-wrap:wrap; gap:8px}
     .chip{border:1px solid var(--line); background:color-mix(in oklab, var(--panel) 90%, var(--ink)); color:var(--ink); opacity:.9; padding:6px 10px; border-radius:999px; font-weight:600; font-size:13px}
 
+    /* ===== Revised Projects (The original design was not aesthetically pleasing)) ===== */
+    .projects-grid{ display:grid; grid-template-columns: repeat(12,1fr); gap:16px; }
+    @media (max-width:900px){ .projects-grid{ grid-template-columns:1fr } }
+
+    .project-card{
+      display:flex; flex-direction:column; gap:10px;
+      padding:16px; border:1px solid var(--line); background:var(--panel);
+      border-radius:var(--radius); box-shadow:var(--shadow);
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      height:100%;
+    }
+    .project-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 14px 30px rgba(0,0,0,.25);
+      border-color:color-mix(in oklab, var(--accent) 35%, var(--line));
+    }
+
+    .project-title{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .project-title h3{ margin:0; font-size:18px; letter-spacing:.1px; }
+    .project-title svg{ width:18px; height:18px; opacity:.6; }
+
+    .project-desc{ margin:0; color:var(--muted); font-size:15px; }
+    .project-chips{ margin-top:2px; }
+
+    .projects .col-6{ grid-column:span 6; }
+    .projects .col-12{ grid-column:span 12; }
+    @media (max-width:900px){ .projects .col-6,.projects .col-12{ grid-column:span 12; } }
+
+
     /* card hover: subtle lift */
     .card{ position:relative; transition: transform .15s ease, box-shadow .15s ease; will-change: transform; }
     .card:hover{ transform: translateY(-2px); box-shadow:0 14px 30px rgba(0,0,0,.25) }
@@ -322,36 +351,60 @@
       </div>
     </section>
 
-    <!-- PROJECTS (also placeholders) -->
-    <section id="projects" class="reveal">
+    <!-- PROJECTS (updated) -->
+    <section id="projects" class="reveal projects">
       <h2>Projects</h2>
-      <div class="grid">
+      <div class="projects-grid">
         <div class="col-6">
-          <a class="panel card" href="#" target="_blank" rel="noopener">
-            <h3 style="margin:0 0 6px">Project A</h3>
-            <p class="what" style="margin:0 0 10px">Brief Description A.</p>
-            <div class="chips">
+          <a class="project-card" href="#" target="_blank" rel="noopener">
+            <div class="project-title">
+              <h3>Project A</h3>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M13 5l7 7-7 7v-4H4v-6h9V5z"/>
+              </svg>
+            </div>
+            <p class="project-desc">Brief Description A.</p>
+            <div class="chips project-chips">
               <span class="chip">React</span>
               <span class="chip">Python</span>
               <span class="chip">SQLite</span>
             </div>
           </a>
         </div>
+
         <div class="col-6">
-          <a class="panel card" href="#" target="_blank" rel="noopener">
-            <h3 style="margin:0 0 6px">Project B</h3>
-            <p class="what" style="margin:0 0 10px">Brief Description B.</p>
-            <div class="chips">
+          <a class="project-card" href="#" target="_blank" rel="noopener">
+            <div class="project-title">
+              <h3>Project B</h3>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M13 5l7 7-7 7v-4H4v-6h9V5z"/>
+              </svg>
+            </div>
+            <p class="project-desc">Brief Description B.</p>
+            <div class="chips project-chips">
               <span class="chip">TypeScript</span>
               <span class="chip">Next.js</span>
               <span class="chip">Tailwind</span>
             </div>
           </a>
         </div>
+
         <div class="col-12">
-          <a class="panel card" href="#" target="_blank" rel="noopener">
-            <h3 style="margin:0 0 6px">Online Portfolio Website</h3>
-            <p class="what" style="margin:0">Personal portfolio website featuring an animated growing plant, typewriter greeting, theme toggle, scroll spy navigation, progress bar, and smooth reveal animations.</p>
+          <a class="project-card" href="#" target="_blank" rel="noopener">
+            <div class="project-title">
+              <h3>Online Portfolio Website</h3>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M13 5l7 7-7 7v-4H4v-6h9V5z"/>
+              </svg>
+            </div>
+            <p class="project-desc">
+              Personal portfolio website featuring an animated growing plant, typewriter greeting, theme toggle, scroll spy navigation, progress bar, and smooth reveal animations.
+            </p>
+            <div class="chips project-chips">
+              <span class="chip">HTML</span>
+              <span class="chip">CSS</span>
+              <span class="chip">JavaScript</span>
+            </div>
           </a>
         </div>
       </div>
