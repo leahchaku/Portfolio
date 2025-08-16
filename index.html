@@ -5,9 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Leah Balakrishnan</title>
   <meta name="theme-color" content="#0F1115" />
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/images/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="180x180" href="assets/images/favicon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicon-512x512.png">
   <style>
     /* =====================
        Leah: theme + reset (my baseline)
@@ -793,7 +796,7 @@
 
       <!-- my photo -->
       <aside class="photo reveal">
-        <img src="./leah_web.jpg" alt="Leah at Stanford archway">
+        <img src="assets/images/leah_web.jpg" alt="Leah at Stanford archway">
       </aside>
     </section>
 
@@ -960,37 +963,56 @@
       }, { threshold: .15 });
       document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-      // 4) active nav highlight (click + scroll)
+      // 4) active nav highlight magic (follows as I scroll) FIXED
       const navLinks = Array.from(document.querySelectorAll('[data-link]'));
+      const idFromLink = a => a.hash.slice(1);
+      const ids = navLinks.map(idFromLink);
+      const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
 
+      // tiny underline helper
       function setActive(id) {
         navLinks.forEach(a =>
-          a.setAttribute('aria-current', a.hash === `#${id}` ? 'page' : 'false')
+          a.setAttribute('aria-current', idFromLink(a) === id ? 'page' : 'false')
         );
       }
 
-      // update underline immediately on click
-      navLinks.forEach(a => {
-        a.addEventListener('click', () => setActive(a.hash.slice(1)));
+      // click: update immediately
+      navLinks.forEach(a => a.addEventListener('click', () => setActive(idFromLink(a))));
+
+      // header height (for offset)
+      const header = document.querySelector('header');
+      const headerH = header ? header.offsetHeight : 64;
+
+      // observer watches my sections and picks whichever is MOST visible
+      const spy = new IntersectionObserver((entries) => {
+        // if I’m all the way at the top → always highlight Home
+        if (window.scrollY <= 2) {
+          setActive('home');
+          return;
+        }
+
+        // otherwise find the section that’s most on screen
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visible) setActive(visible.target.id);
+      }, {
+        root: null,
+        rootMargin: `-${headerH + 8}px 0px -55% 0px`,
+        threshold: [0, 0.25, 0.5, 0.75, 1]
       });
 
-      // scroll spy for sections
-      const watchedSections = navLinks
-        .map(a => document.querySelector(a.hash))
-        .filter(Boolean);
+      // observe each section
+      sections.forEach(s => spy.observe(s));
 
-      const spy = new IntersectionObserver(
-        entries => {
-          entries.forEach(e => {
-            if (e.isIntersecting) setActive(e.target.id);
-          });
-        },
-        { rootMargin: '-20% 0px -50% 0px', threshold: 0.4 }
-      );
+      // initial underline (hash if present, otherwise Home or current scroll)
+      setActive(window.scrollY <= 2 ? 'home' : (location.hash?.slice(1) || 'home'));
 
-      watchedSections.forEach(s => spy.observe(s));
-      // initial state for underline
-      setActive((location.hash || '#home').slice(1));
+      // keep Home selected when user flicks to the very top quickly
+      addEventListener('scroll', () => {
+        if (window.scrollY <= 2) setActive('home');
+      }, { passive: true });
 
       // 5) top progress bar based on scroll position
       const progress = document.querySelector('.progress');
