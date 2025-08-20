@@ -691,6 +691,65 @@
         transition: none !important;
       }
     }
+    /* === Mobile-only navbar + hero fix === */
+    @media (max-width: 768px) {
+      /* 1) Hide name + section links */
+      .brand,
+      .navlinks { 
+        display: none !important;
+      }
+
+      /* 2) Keep only the icons on the right, slightly smaller */
+      .actions {
+        margin-left: auto;     /* push to right */
+        gap: 8px;
+      }
+      .actions .icon {         /* shrink icon buttons */
+        width: 30px;           /* was 36px */
+      }
+      .actions .icon svg {
+        width: 16px;
+        height: 16px;
+      }
+      .actions .toggle {       /* shrink theme toggle */
+        width: 34px;           /* was 40px */
+        height: 32px;          /* was 36px */
+        border-radius: 8px;
+      }
+
+      /* 3) Hide the photo on mobile */
+      .hero .photo {
+        display: none !important;
+      }
+
+      /* 4) Reinforce text colors */
+      .sub,
+      .body,
+      .project-desc,
+      .what,
+      .when { color: var(--muted) !important; }
+
+      .accent { color: var(--accent) !important; }
+    }
+    /* Trim the last section and compact the footer */
+    main > section:last-of-type { 
+      padding-bottom: 20px !important;   /* was 92px */
+    }
+
+    footer { 
+      padding: 10px 0 14px !important;   /* was 46px 0 88px */
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+
+    footer .small { 
+      margin: 0; 
+      font-size: 13px; 
+      line-height: 1.25;
+    }
+
+    /* Prevent any margin-collapsing surprises at the very bottom */
+    main { padding-bottom: 1px; }
   </style>
 </head>
 <body>
@@ -766,19 +825,8 @@
 
         <div class="sub">I like to code things, sometimes.</div>
         <p class="body">
-          I’m a software engineer and AI researcher, currently studying computer science with a specialization in artificial intelligence at Stanford University.
+          I’m a software engineer, currently studying computer science with a specialization in artificial intelligence at Stanford University.
         </p>
-
-        <!-- centered email button -->
-        <div style="text-align:center">
-          <a class="cta" id="sayHi" href="mailto:leahb.dev@gmail.com">
-            <span class="sparkle" aria-hidden="true"></span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path fill="currentColor" d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v.4l-10 6.3L2 6.4V6zm0 2.7v8.3a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.7l-10 6.3L2 8.7z"/>
-            </svg>
-            Say hi!
-          </a>
-        </div>
 
         <!-- skill chips -->
         <div class="chips" style="justify-content:center; margin-top:14px" aria-label="Skills">
@@ -805,7 +853,7 @@
   <h2>About</h2>
   <div class="panel">
     <p style="margin:0 0 10px">
-      I’m a <strong>full-stack developer</strong> passionate about building scalable, ethical technology that makes a real-world impact. Currently, I’m pursuing my <strong>B.S. and M.S. in Computer Science at Stanford University</strong>, where I specialize in artificial intelligence.
+      I’m a <strong>full-stack developer</strong> and <strong>AI researcher</strong> passionate about building scalable, ethical technology that makes a real-world impact. Currently, I’m pursuing my <strong>B.S. and M.S. in Computer Science at Stanford University</strong>, where I specialize in artificial intelligence.
     </p>
     <p style="margin:0 0 10px">
       My journey began at a local community college, where I transferred to Stanford as one of just <strong>1.58% of transfer students admitted globally</strong>. Since then, I’ve built and deployed <strong>full-stack applications</strong> (Python, JavaScript, React, Flask, SQL, Node.js), conducted AI research with leading faculty, and earned <strong>1st place in regional hackathons</strong>.
@@ -850,11 +898,13 @@
                 <path fill="currentColor" d="M13 5l7 7-7 7v-4H4v-6h9V5z"/>
               </svg>
             </div>
-            <p class="project-desc">Neutralize is a Chrome extension built with HTML, CSS, and JavaScript that detects and highlights bias in online content, helping users navigate information with clarity and confidence.</p>
+            <p class="project-desc">Neutralize is a Chrome extension that combines local heuristics with AI to detect and highlight biased or loaded language in real time. By blending fast client-side analysis with intelligent fallback to large language models, it helps users navigate online content with clarity, nuance, and confidence.</p>
             <div class="chips project-chips">
-              <span class="chip">HTML</span>
-              <span class="chip">CSS</span>
-              <span class="chip">Javascript</span>
+              <span class="chip">Chrome Extensions (MV3)</span>
+              <span class="chip">TensorFlow.js / ONNX</span>
+              <span class="chip">AI/NLP</span>
+              <span class="chip">API Integration</span>
+              <span class="chip">HTML / CSS / JS</span>
             </div>
           </a>
         </div>
@@ -879,7 +929,7 @@
         <div class="col-12">
           <a class="project-card" href="#" target="_blank" rel="noopener">
             <div class="project-title">
-              <h3>Online Portfolio Website</h3>
+              <h3>Portfolio</h3>
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path fill="currentColor" d="M13 5l7 7-7 7v-4H4v-6h9V5z"/>
               </svg>
@@ -890,7 +940,7 @@
             <div class="chips project-chips">
               <span class="chip">HTML</span>
               <span class="chip">CSS</span>
-              <span class="chip">JavaScript</span>
+              <span class="chip">JS</span>
             </div>
           </a>
         </div>
