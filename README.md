@@ -1,6 +1,6 @@
 A personal portfolio showcasing my work, achievements, and skills, built with HTML, CSS, and JavaScript.
 
-DEMO: https://leahchaku.github.io/portfolio/
+DEMO: https://leahbalakrishnan.com/
 
 ## ✨ Features
 - Dark/light theme toggle with localStorage
